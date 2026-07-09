@@ -1,0 +1,366 @@
+/* ============================================================
+   ITSol SmartHome – Design-System
+   Farben: Petrol #026773 (Primär), Tiefsee #024959 (Dunkel)
+   Schrift: Sora (Display), Inter (Text), IBM Plex Mono (Messdaten)
+   ============================================================ */
+
+:root {
+  --petrol: #026773;
+  --tiefsee: #024959;
+  --tinte: #032630;            /* fast schwarz, aus Tiefsee abgeleitet */
+  --nebel: #f1f6f6;            /* heller Seitenhintergrund */
+  --weiss: #ffffff;
+  --linie: #d8e4e5;
+  --text: #21353a;
+  --text-gedimmt: #5d7378;
+  --messwert: #ffb454;         /* warmer Akzent NUR fuer Live-Messwerte */
+  --gruen: #2e9e6b;
+  --rot: #c94f4f;
+
+  --font-display: "Sora", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-text: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", "Consolas", monospace;
+
+  --radius: 14px;
+  --schatten: 0 10px 30px rgba(2, 73, 89, 0.10);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-text);
+  color: var(--text);
+  background: var(--nebel);
+  line-height: 1.6;
+}
+
+h1, h2, h3 { font-family: var(--font-display); color: var(--tiefsee); }
+
+a { color: var(--petrol); text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- Header ---------- */
+.header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--linie);
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px;
+}
+.logo { display: flex; align-items: center; gap: 12px; }
+.logo-mark {
+  width: 40px; height: 40px; border-radius: 11px;
+  background: linear-gradient(140deg, var(--petrol), var(--tiefsee));
+  display: grid; place-items: center; color: #fff;
+}
+.logo-text { line-height: 1.15; }
+.logo-text b { font-family: var(--font-display); font-size: 17px; color: var(--tiefsee); display: block; }
+.logo-text span { font-size: 12px; color: var(--text-gedimmt); letter-spacing: 0.04em; }
+
+.nav { display: flex; gap: 6px; }
+.nav a {
+  padding: 9px 16px; border-radius: 10px; font-weight: 500; font-size: 15px;
+  color: var(--text); transition: background 0.15s ease, color 0.15s ease;
+}
+.nav a:hover { background: #e6efef; }
+.nav a.aktiv { background: var(--tiefsee); color: #fff; }
+
+.warenkorb-knopf {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 16px; border-radius: 10px;
+  border: 1.5px solid var(--linie); background: #fff;
+  font: 500 15px var(--font-text); color: var(--tiefsee); cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.warenkorb-knopf:hover { border-color: var(--petrol); }
+.warenkorb-anzahl {
+  min-width: 22px; height: 22px; border-radius: 999px;
+  background: var(--petrol); color: #fff;
+  font: 600 12px/22px var(--font-mono); text-align: center;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(2, 103, 115, 0.55), transparent 60%),
+    linear-gradient(160deg, var(--tinte) 0%, var(--tiefsee) 70%, var(--petrol) 130%);
+  color: #fff;
+  padding: 96px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {                 /* feines Messraster im Hintergrund */
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(700px 500px at 30% 40%, #000, transparent 75%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 720px; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 7px 15px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 13.5px; letter-spacing: 0.02em;
+}
+.puls {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--messwert);
+  animation: puls 2s ease-in-out infinite;
+}
+@keyframes puls { 50% { opacity: 0.35; transform: scale(0.8); } }
+
+.hero h1 {
+  font-size: clamp(40px, 6vw, 68px);
+  line-height: 1.05; letter-spacing: -0.02em;
+  color: #fff; margin: 26px 0 20px;
+}
+.hero h1 em { font-style: normal; color: #7ed4de; }
+.hero p { font-size: 18px; color: rgba(255, 255, 255, 0.82); max-width: 560px; }
+
+.hero-aktionen { display: flex; gap: 14px; margin-top: 34px; flex-wrap: wrap; }
+
+.knopf {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 13px 24px; border-radius: 12px; border: none; cursor: pointer;
+  font: 600 15.5px var(--font-text); transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.knopf:hover { transform: translateY(-1px); }
+.knopf-primaer { background: var(--petrol); color: #fff; box-shadow: 0 8px 22px rgba(2, 103, 115, 0.45); }
+.knopf-primaer:hover { box-shadow: 0 12px 26px rgba(2, 103, 115, 0.55); }
+.knopf-hell { background: #fff; color: var(--tiefsee); }
+.knopf-umriss { background: transparent; color: #fff; border: 1.5px solid rgba(255, 255, 255, 0.45); }
+.knopf-umriss:hover { border-color: #fff; }
+
+/* Signatur-Element: Live-Messwert-Leiste im Mono-Font */
+.messleiste {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  margin-top: 54px;
+}
+.messchip {
+  flex: 1 1 200px; min-width: 200px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(3, 38, 48, 0.55);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  backdrop-filter: blur(6px);
+}
+.messchip .label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase; letter-spacing: 0.09em;
+}
+.messchip .wert {
+  font: 500 26px var(--font-mono);
+  color: var(--messwert); margin-top: 6px;
+}
+.messchip .wert small { font-size: 15px; color: rgba(255, 255, 255, 0.55); }
+
+/* ---------- Sektionen ---------- */
+.sektion { padding: 84px 0; }
+.sektion-kopf { max-width: 620px; margin-bottom: 44px; }
+.augenbraue {
+  font: 600 13px var(--font-mono); color: var(--petrol);
+  text-transform: uppercase; letter-spacing: 0.14em;
+}
+.sektion-kopf h2 { font-size: clamp(28px, 4vw, 38px); margin-top: 10px; letter-spacing: -0.01em; }
+.sektion-kopf p { color: var(--text-gedimmt); margin-top: 12px; }
+
+.karten-raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+
+.karte {
+  background: var(--weiss); border: 1px solid var(--linie);
+  border-radius: var(--radius); padding: 28px;
+  box-shadow: var(--schatten);
+}
+.karte h3 { font-size: 19px; margin: 16px 0 8px; }
+.karte p { font-size: 15px; color: var(--text-gedimmt); }
+.karten-icon {
+  width: 46px; height: 46px; border-radius: 12px;
+  background: #e3eeef; color: var(--petrol);
+  display: grid; place-items: center;
+}
+
+/* ---------- Shop ---------- */
+.produkt-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 26px; }
+
+.produkt {
+  background: var(--weiss); border: 1px solid var(--linie);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--schatten);
+  display: flex; flex-direction: column;
+  transition: transform 0.18s ease;
+}
+.produkt:hover { transform: translateY(-3px); }
+.produkt-bild {
+  height: 170px; display: grid; place-items: center;
+  background: linear-gradient(150deg, var(--tiefsee), var(--petrol));
+  color: rgba(255, 255, 255, 0.9);
+}
+.produkt-inhalt { padding: 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.produkt-tag {
+  align-self: flex-start;
+  font: 600 12px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--petrol); background: #e3eeef;
+  padding: 4px 10px; border-radius: 999px;
+}
+.produkt h3 { font-size: 20px; }
+.produkt .beschreibung { font-size: 14.5px; color: var(--text-gedimmt); flex: 1; }
+.produkt .lieferumfang { font-size: 13.5px; color: var(--text-gedimmt); padding-left: 18px; }
+.produkt .lieferumfang li { margin: 3px 0; }
+.produkt-fuss {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--linie);
+}
+.preis { font: 600 22px var(--font-mono); color: var(--tiefsee); }
+.preis small { font: 400 12px var(--font-text); color: var(--text-gedimmt); display: block; }
+
+/* ---------- Warenkorb (Seitenleiste) ---------- */
+.korb-schleier {
+  position: fixed; inset: 0; background: rgba(3, 38, 48, 0.45);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s ease; z-index: 90;
+}
+.korb-schleier.offen { opacity: 1; pointer-events: auto; }
+.korb {
+  position: fixed; top: 0; right: 0; height: 100%; width: min(420px, 100%);
+  background: #fff; z-index: 100; display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.25s ease;
+  box-shadow: -18px 0 40px rgba(2, 73, 89, 0.18);
+}
+.korb.offen { transform: translateX(0); }
+.korb-kopf {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; border-bottom: 1px solid var(--linie);
+}
+.korb-kopf h3 { font-size: 19px; }
+.korb-schliessen { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-gedimmt); }
+.korb-liste { flex: 1; overflow-y: auto; padding: 18px 24px; display: flex; flex-direction: column; gap: 16px; }
+.korb-leer { color: var(--text-gedimmt); text-align: center; margin-top: 60px; font-size: 15px; }
+.korb-eintrag { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--linie); padding-bottom: 14px; }
+.korb-eintrag .name { font-weight: 600; font-size: 15px; color: var(--tiefsee); }
+.korb-eintrag .einzelpreis { font: 400 13px var(--font-mono); color: var(--text-gedimmt); }
+.menge { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.menge button {
+  width: 26px; height: 26px; border-radius: 8px; border: 1.5px solid var(--linie);
+  background: #fff; cursor: pointer; font-size: 15px; color: var(--tiefsee);
+}
+.menge span { font: 500 14px var(--font-mono); min-width: 20px; text-align: center; }
+.korb-eintrag .zeilensumme { font: 600 15px var(--font-mono); color: var(--tiefsee); white-space: nowrap; }
+.korb-fuss { border-top: 1px solid var(--linie); padding: 20px 24px; }
+.korb-summe { display: flex; justify-content: space-between; font: 600 18px var(--font-display); color: var(--tiefsee); margin-bottom: 6px; }
+.korb-hinweis { font-size: 12.5px; color: var(--text-gedimmt); margin-bottom: 14px; }
+.korb-fuss .knopf { width: 100%; justify-content: center; }
+
+/* ---------- Dashboard ---------- */
+.dash-kopfzeile {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; margin-bottom: 30px;
+}
+.dash-filter { display: flex; gap: 12px; flex-wrap: wrap; }
+.dash-filter select {
+  padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--linie);
+  background: #fff; font: 500 14.5px var(--font-text); color: var(--tiefsee);
+  cursor: pointer;
+}
+.status-pille {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border-radius: 999px;
+  font: 500 13px var(--font-mono);
+}
+.status-pille.ok { background: #e2f3ea; color: var(--gruen); }
+.status-pille.fehler { background: #f9e6e6; color: var(--rot); }
+
+.kachel-raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 18px; margin-bottom: 30px; }
+.kachel {
+  background: var(--weiss); border: 1px solid var(--linie);
+  border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--schatten);
+}
+.kachel .raum { font: 600 15px var(--font-display); color: var(--tiefsee); display: flex; align-items: center; gap: 8px; }
+.kachel .zeit { font: 400 11.5px var(--font-mono); color: var(--text-gedimmt); margin-top: 2px; }
+.kachel .werte { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+.kachel .wert { font: 500 17px var(--font-mono); color: var(--petrol); }
+.kachel .wert small { display: block; font: 400 11px var(--font-text); color: var(--text-gedimmt); letter-spacing: 0.05em; text-transform: uppercase; }
+/* Raum ohne Sensor / ohne Messwerte */
+.kachel-leer { border-style: dashed; background: #fbfdfd; box-shadow: none; }
+.kachel-leer .raum { color: var(--text-gedimmt); }
+.kachel-leer .wert { color: var(--text-gedimmt); }
+
+.diagramm-raster { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 900px) { .diagramm-raster { grid-template-columns: 1fr 1fr; } }
+.diagramm-karte {
+  background: var(--weiss); border: 1px solid var(--linie);
+  border-radius: var(--radius); padding: 24px; box-shadow: var(--schatten);
+}
+.diagramm-karte.breit { grid-column: 1 / -1; }
+.diagramm-karte h3 { font-size: 17px; margin-bottom: 4px; }
+.diagramm-karte .einheit { font: 400 12.5px var(--font-mono); color: var(--text-gedimmt); margin-bottom: 14px; }
+.diagramm-karte .legende { margin: -4px 0 12px; line-height: 1.9; }
+.diagramm-huelle { position: relative; height: 300px; }
+.diagramm-huelle > div { width: 100%; height: 100%; }
+
+.statistik-zeile { display: flex; gap: 22px; flex-wrap: wrap; margin: 4px 0 30px; }
+.stat {
+  font: 500 14px var(--font-mono); color: var(--tiefsee);
+  background: #fff; border: 1px solid var(--linie); border-radius: 10px;
+  padding: 9px 15px;
+}
+.stat b { color: var(--petrol); font-weight: 600; }
+
+.fehlerbox {
+  background: #f9e6e6; border: 1px solid #eec9c9; color: #8c3535;
+  border-radius: var(--radius); padding: 22px 26px; margin-bottom: 28px;
+  font-size: 15px;
+}
+.fehlerbox code { font-family: var(--font-mono); font-size: 13px; background: #fff; padding: 2px 7px; border-radius: 6px; }
+
+/* ---------- Fußzeile ---------- */
+.fusszeile {
+  background: var(--tinte); color: rgba(255, 255, 255, 0.75);
+  padding: 46px 0; margin-top: 40px; font-size: 14px;
+}
+.fusszeile-inner { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.fusszeile b { color: #fff; font-family: var(--font-display); }
+.fusszeile a { color: #7ed4de; }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translate(-50%, 20px);
+  background: var(--tiefsee); color: #fff;
+  padding: 13px 22px; border-radius: 12px; font-size: 14.5px;
+  opacity: 0; pointer-events: none; transition: all 0.25s ease; z-index: 120;
+  box-shadow: 0 14px 30px rgba(2, 73, 89, 0.4);
+}
+.toast.sichtbar { opacity: 1; transform: translate(-50%, 0); }
+
+/* Sichtbarer Tastatur-Fokus (Barrierefreiheit) */
+a:focus-visible, button:focus-visible, select:focus-visible {
+  outline: 3px solid var(--petrol);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+@media (max-width: 720px) {
+  .header-inner { height: auto; flex-wrap: wrap; gap: 10px; padding: 12px 0; }
+  .nav { order: 3; width: 100%; justify-content: center; }
+  .nav a { padding: 8px 12px; font-size: 14px; }
+  .warenkorb-knopf { font-size: 0; gap: 6px; padding: 9px 12px; }
+  .warenkorb-knopf svg { width: 20px; height: 20px; }
+  .warenkorb-anzahl { font-size: 12px; }
+  .hero { padding: 56px 0 48px; }
+  .hero h1 { font-size: clamp(34px, 9vw, 48px); }
+  .dash-kopfzeile { flex-direction: column; align-items: stretch; }
+  .dash-filter { justify-content: space-between; }
+  .dash-filter select { flex: 1; }
+}

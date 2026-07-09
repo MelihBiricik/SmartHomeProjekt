@@ -1,0 +1,15 @@
+{
+  "name": "itsol-smarthome-web",
+  "version": "1.0.0",
+  "description": "ITSol SmartHome - Website mit WebShop und Live-Dashboard (Projekt SmartHome)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0"
+  }
+}

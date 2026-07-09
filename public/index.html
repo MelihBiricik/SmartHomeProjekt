@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITSol SmartHome – Ihr Zuhause. Intelligent vernetzt.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23026773' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10.5 12 3l9 7.5'/%3E%3Cpath d='M5 9.5V21h14V9.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ======= Header ======= -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        </span>
+        <span class="logo-text"><b>ITSol</b><span>SmartHome</span></span>
+      </a>
+      <nav class="nav">
+        <a href="index.html" class="aktiv">Startseite</a>
+        <a href="shop.html">WebShop</a>
+        <a href="dashboard.html">Dashboard</a>
+      </nav>
+      <button class="warenkorb-knopf" onclick="oeffneKorb()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l3 13h11l2.5-9H7"/></svg>
+        Warenkorb <span class="warenkorb-anzahl">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======= Hero ======= -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <span class="hero-badge"><span class="puls"></span> IoT-System für Ihr Zuhause</span>
+      <h1>Ihr Zuhause.<br><em>Intelligent</em> vernetzt.</h1>
+      <p>
+        Mit dem SmartHome-System von ITSol überwachen Sie Temperatur, Luftfeuchtigkeit
+        und Luftdruck in jedem Raum – live, präzise und über Wochen zurückverfolgbar.
+        Einfach als Bausatz bestellen und loslegen.
+      </p>
+      <div class="hero-aktionen">
+        <a href="shop.html" class="knopf knopf-primaer">Zum WebShop →</a>
+        <a href="dashboard.html" class="knopf knopf-umriss">Live-Dashboard öffnen</a>
+      </div>
+
+      <!-- Live-Messleiste: zeigt echte Werte aus der Datenbank -->
+      <div class="messleiste" id="messleiste">
+        <div class="messchip">
+          <div class="label"><span class="puls"></span> Temperatur</div>
+          <div class="wert" id="chipTemp">–<small> °C</small></div>
+        </div>
+        <div class="messchip">
+          <div class="label"><span class="puls"></span> Luftfeuchtigkeit</div>
+          <div class="wert" id="chipFeuchte">–<small> %</small></div>
+        </div>
+        <div class="messchip">
+          <div class="label"><span class="puls"></span> Luftdruck</div>
+          <div class="wert" id="chipDruck">–<small> hPa</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= So funktioniert es ======= -->
+  <section class="sektion">
+    <div class="container">
+      <div class="sektion-kopf">
+        <span class="augenbraue">System-Übersicht</span>
+        <h2>Vom Sensor bis zum Diagramm – alles aus einer Hand</h2>
+        <p>Drei Komponenten, ein System: SmartSense misst, der SmartHome-Server speichert, das Web-Dashboard zeigt an.</p>
+      </div>
+      <div class="karten-raster">
+        <div class="karte">
+          <div class="karten-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v10"/><circle cx="12" cy="17" r="4"/></svg>
+          </div>
+          <h3>1 · Messen</h3>
+          <p>Der SmartHomeSensor (Adafruit Feather) erfasst Temperatur, Luftfeuchtigkeit und Luftdruck in jedem Raum – Küche, Bad, Wohnzimmer, Garage oder Balkon.</p>
+        </div>
+        <div class="karte">
+          <div class="karten-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+          </div>
+          <h3>2 · Speichern</h3>
+          <p>Der SmartHome-Server empfängt die Daten per WLAN und schreibt sie in eine MySQL-Datenbank – so bleiben Ihre Messwerte über Wochen und Monate erhalten.</p>
+        </div>
+        <div class="karte">
+          <div class="karten-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+          </div>
+          <h3>3 · Auswerten</h3>
+          <p>Das Live-Dashboard zeigt alle Räume auf einen Blick: aktuelle Werte, Verläufe als Diagramm und Statistiken mit Minimum, Maximum und Durchschnitt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Produkt-Teaser ======= -->
+  <section class="sektion" style="padding-top: 0;">
+    <div class="container">
+      <div class="sektion-kopf">
+        <span class="augenbraue">Produktreihe SmartHome</span>
+        <h2>Als Bausatz oder Download – direkt im WebShop</h2>
+        <p>SmartHomeServer, SmartHomeSensor und SmartHomeWeb: alle Komponenten der Produktreihe finden Sie in unserem WebShop.</p>
+      </div>
+      <a href="shop.html" class="knopf knopf-primaer">Alle Produkte ansehen →</a>
+    </div>
+  </section>
+
+  <!-- ======= Fußzeile ======= -->
+  <footer class="fusszeile">
+    <div class="container fusszeile-inner">
+      <div>
+        <b>ITSol GmbH – SmartHome</b><br>
+        Breitwiesenstraße 20-22, 70565 Stuttgart
+      </div>
+      <div>
+        <a href="shop.html">WebShop</a> · <a href="dashboard.html">Dashboard</a><br>
+        Azubi-Projekt „SmartHome" · it.schule stuttgart
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======= Warenkorb-Seitenleiste ======= -->
+  <div class="korb-schleier" id="korbSchleier" onclick="schliesseKorb()"></div>
+  <aside class="korb" id="korb" aria-label="Warenkorb">
+    <div class="korb-kopf">
+      <h3>Warenkorb</h3>
+      <button class="korb-schliessen" onclick="schliesseKorb()" aria-label="Warenkorb schließen">✕</button>
+    </div>
+    <div class="korb-liste" id="korbListe"></div>
+    <div class="korb-fuss">
+      <div class="korb-summe"><span>Gesamtsumme</span><span id="korbSumme">0,00 €</span></div>
+      <div class="korb-hinweis">inkl. 19 % MwSt., zzgl. Versand</div>
+      <button class="knopf knopf-primaer" onclick="bestellungAbschicken()">Zur Kasse gehen</button>
+    </div>
+  </aside>
+
+  <script src="js/common.js"></script>
+  <script>
+    // Live-Werte aus der Datenbank in die Hero-Messleiste laden
+    async function ladeLiveWerte() {
+      try {
+        const res = await fetch("/api/messwerte/aktuell");
+        if (!res.ok) throw new Error();
+        // Raeume ohne Sensor/Messwerte (Zeitpunkt = null) beim Durchschnitt ignorieren
+        const daten = (await res.json()).filter((d) => d.Zeitpunkt != null);
+        if (daten.length === 0) throw new Error();
+        // Durchschnitt über alle Räume anzeigen
+        const avg = (feld) => daten.reduce((s, d) => s + Number(d[feld]), 0) / daten.length;
+        const de = (n, stellen = 1) => n.toLocaleString("de-DE", { minimumFractionDigits: stellen, maximumFractionDigits: stellen });
+        document.getElementById("chipTemp").innerHTML = de(avg("Temperatur")) + "<small> °C</small>";
+        document.getElementById("chipFeuchte").innerHTML = de(avg("Luftfeuchtigkeit"), 0) + "<small> %</small>";
+        document.getElementById("chipDruck").innerHTML = de(avg("Luftdruck"), 0) + "<small> hPa</small>";
+      } catch {
+        // Datenbank nicht erreichbar → Platzhalter stehen lassen
+      }
+    }
+    ladeLiveWerte();
+    setInterval(ladeLiveWerte, 30000);
+  </script>
+</body>
+</html>

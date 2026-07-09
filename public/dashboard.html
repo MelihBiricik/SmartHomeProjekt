@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live-Dashboard – ITSol SmartHome</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23026773' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10.5 12 3l9 7.5'/%3E%3Cpath d='M5 9.5V21h14V9.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ======= Header ======= -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        </span>
+        <span class="logo-text"><b>ITSol</b><span>SmartHome</span></span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Startseite</a>
+        <a href="shop.html">WebShop</a>
+        <a href="dashboard.html" class="aktiv">Dashboard</a>
+      </nav>
+      <button class="warenkorb-knopf" onclick="oeffneKorb()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l3 13h11l2.5-9H7"/></svg>
+        Warenkorb <span class="warenkorb-anzahl">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======= Dashboard ======= -->
+  <section class="sektion" style="padding-top: 48px;">
+    <div class="container">
+
+      <div class="dash-kopfzeile">
+        <div>
+          <span class="augenbraue">Live-Dashboard</span>
+          <h2 style="margin-top: 8px;">Messwerte aus Ihrer Datenbank</h2>
+        </div>
+        <div class="dash-filter">
+          <span class="status-pille" id="dbStatus"><span class="puls"></span> Verbinde …</span>
+          <select id="raumFilter" aria-label="Raum auswählen">
+            <option value="">Alle Räume</option>
+          </select>
+          <select id="zeitFilter" aria-label="Zeitraum auswählen">
+            <option value="24">Letzte 24 Stunden</option>
+            <option value="72">Letzte 3 Tage</option>
+            <option value="168" selected>Letzte 7 Tage</option>
+            <option value="720">Letzte 30 Tage</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Fehlermeldung, falls DB nicht erreichbar -->
+      <div class="fehlerbox" id="fehlerbox" hidden>
+        <b>Keine Verbindung zur Datenbank.</b><br>
+        Bitte prüfen Sie, ob der MySQL-Server läuft und die Zugangsdaten in der Datei
+        <code>.env</code> stimmen (Datenbank <code>SmartHomeDB2</code>).
+        Testdaten können Sie mit <code>npm run seed</code> einspielen.
+      </div>
+
+      <!-- Aktuelle Werte pro Raum -->
+      <div class="kachel-raster" id="kachelRaster"></div>
+
+      <!-- Statistik -->
+      <div class="statistik-zeile" id="statistikZeile"></div>
+
+      <!-- Diagramme -->
+      <div class="diagramm-raster">
+        <div class="diagramm-karte breit">
+          <h3>Temperaturverlauf</h3>
+          <div class="einheit">°C · nach Raum</div>
+          <div class="legende" id="legendeTemp"></div>
+          <div class="diagramm-huelle"><div id="chartTemp"></div></div>
+        </div>
+        <div class="diagramm-karte">
+          <h3>Luftfeuchtigkeit</h3>
+          <div class="einheit">% relative Feuchte</div>
+          <div class="diagramm-huelle"><div id="chartFeuchte"></div></div>
+        </div>
+        <div class="diagramm-karte">
+          <h3>Luftdruck</h3>
+          <div class="einheit">hPa</div>
+          <div class="diagramm-huelle"><div id="chartDruck"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======= Fußzeile ======= -->
+  <footer class="fusszeile">
+    <div class="container fusszeile-inner">
+      <div>
+        <b>ITSol GmbH – SmartHome</b><br>
+        Breitwiesenstraße 20-22, 70565 Stuttgart
+      </div>
+      <div>
+        <a href="index.html">Startseite</a> · <a href="shop.html">WebShop</a><br>
+        Azubi-Projekt „SmartHome" · it.schule stuttgart
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======= Warenkorb-Seitenleiste ======= -->
+  <div class="korb-schleier" id="korbSchleier" onclick="schliesseKorb()"></div>
+  <aside class="korb" id="korb" aria-label="Warenkorb">
+    <div class="korb-kopf">
+      <h3>Warenkorb</h3>
+      <button class="korb-schliessen" onclick="schliesseKorb()" aria-label="Warenkorb schließen">✕</button>
+    </div>
+    <div class="korb-liste" id="korbListe"></div>
+    <div class="korb-fuss">
+      <div class="korb-summe"><span>Gesamtsumme</span><span id="korbSumme">0,00 €</span></div>
+      <div class="korb-hinweis">inkl. 19 % MwSt., zzgl. Versand</div>
+      <button class="knopf knopf-primaer" onclick="bestellungAbschicken()">Zur Kasse gehen</button>
+    </div>
+  </aside>
+
+  <script src="js/common.js"></script>
+  <script src="js/minichart.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
