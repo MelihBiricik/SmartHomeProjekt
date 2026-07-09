@@ -15,8 +15,9 @@ smarthome-web/
     ├── index.html       Startseite
     ├── shop.html        WebShop (Produktreihe SmartHome)
     ├── dashboard.html   Live-Dashboard (MiniChart, ohne CDN)
+    ├── live.html        Live-Überwachung (Echtzeit, 5-Sek-Takt)
     ├── css/style.css
-    └── js/              common.js · shop.js · dashboard.js · minichart.js
+    └── js/              common.js · shop.js · dashboard.js · live.js · minichart.js
 ```
 
 ## Voraussetzungen
@@ -52,6 +53,7 @@ Danach im Browser öffnen: **http://localhost:3000**
 | `/api/raeume`                | Alle Räume mit Sensor-Anzahl                  |
 | `/api/sensoren`              | Alle Sensoren mit Raumnamen                   |
 | `/api/messwerte/aktuell`     | Neuester Messwert pro Raum/Sensor (Räume ohne Daten inklusive) |
+| `/api/messwerte/live?minuten=&raumId=` | **Rohe** Messwerte (keine Mittelung) für ein kurzes Fenster – ein Punkt je Messung, für die Live-Seite |
 | `/api/messwerte?raumId=&stunden=` | Verlauf (serverseitig gemittelt), nach Raum & Zeitraum |
 | `/api/statistik?raumId=&stunden=` | Min / Max / Durchschnitt                |
 | `/api/status`                | Prüft die Datenbank-Verbindung                |
@@ -61,6 +63,10 @@ Danach im Browser öffnen: **http://localhost:3000**
 - Die Diagramme nutzen einen **eigenen, leichtgewichtigen SVG-Renderer**
   (`js/minichart.js`) – **keine externe Chart-Bibliothek/kein CDN nötig**,
   das Dashboard funktioniert also auch ohne Internet.
+- **Live-Überwachung** (`live.html`): aktualisiert alle 5 Sekunden, zeigt große
+  Kacheln mit dem aktuellen Wert je Raum und ein Diagramm, in dem **jeder
+  einzelne Messwert als Punkt** erscheint (rohe Daten, keine Mittelung).
+  Das Dashboard bleibt für längere Zeiträume (bis 30 Tage, geglättet) zuständig.
 - Läuft der SmartHomeServer (C#) parallel und schreibt echte Sensordaten in
   `SmartHomeDB2`, erscheinen diese automatisch im Dashboard
   (Aktualisierung alle 30 Sekunden).

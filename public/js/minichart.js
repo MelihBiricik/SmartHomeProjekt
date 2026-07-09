@@ -95,6 +95,16 @@ const MiniChart = (() => {
       const punkte = ds.points.slice().sort((a, b) => a.x - b.x);
       const d = punkte.map((p, i) => (i === 0 ? "M" : "L") + sx(p.x).toFixed(1) + " " + sy(p.y).toFixed(1)).join(" ");
       svg.appendChild(el("path", { d, fill: "none", stroke: ds.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+      // Optional: einen Punkt je Messwert zeichnen (Live-Ansicht) – nur wenn
+      // nicht zu viele, damit das Diagramm sauber bleibt.
+      if (opt.punkte && punkte.length <= 400) {
+        punkte.forEach((p) =>
+          svg.appendChild(el("circle", {
+            cx: sx(p.x).toFixed(1), cy: sy(p.y).toFixed(1), r: 2.6,
+            fill: ds.color, stroke: "#fff", "stroke-width": 1,
+          }))
+        );
+      }
     });
 
     container.appendChild(svg);

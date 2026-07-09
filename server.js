@@ -115,6 +115,45 @@ app.get("/api/messwerte/aktuell", async (req, res) => {
   }
 });
 
+// Live-Verlauf: ROHE Messwerte (KEINE Mittelung/kein Downsampling) fuer ein
+// kurzes, aktuelles Zeitfenster – so wird JEDER einzelne Messpunkt gezeichnet.
+// Fuer die Live-Seite gedacht (kurze Fenster, haeufige Abfrage).
+// /api/messwerte/live?minuten=60&raumId=1
+app.get("/api/messwerte/live", async (req, res) => {
+  const raumId = parseInt(req.query.raumId, 10);
+  // Fenster: 5 Minuten bis 24 Stunden (Standard 60 Min)
+  const minuten = Math.min(Math.max(parseInt(req.query.minuten, 10) || 60, 5), 24 * 60);
+  // Sicherheitsnetz gegen riesige Antworten (z. B. viele Sensoren)
+  const limit = Math.min(parseInt(req.query.limit, 10) || 3000, 10000);
+
+  let sql = `
+    SELECT m.Zeitpunkt,
+           m.Temperatur, m.Luftfeuchtigkeit, m.Luftdruck,
+           r.RaumID, r.Name AS RaumName, s.SensorID
+    FROM Messwerte m
+    JOIN Sensor s ON s.SensorID = m.SensorID
+    LEFT JOIN Raum r ON r.RaumID = s.RaumID
+    WHERE m.Zeitpunkt >= NOW() - INTERVAL ? MINUTE
+  `;
+  const params = [minuten];
+
+  if (!isNaN(raumId)) {
+    sql += " AND s.RaumID = ? ";
+    params.push(raumId);
+  }
+  // Neueste zuerst holen (LIMIT greift auf die aktuellsten), Frontend sortiert
+  // je Raum ohnehin nach Zeit.
+  sql += " ORDER BY m.Zeitpunkt DESC LIMIT ?;";
+  params.push(limit);
+
+  try {
+    const [rows] = await pool.query(sql, params);
+    res.json(rows);
+  } catch (err) {
+    dbError(res, err);
+  }
+});
+
 // Messwert-Verlauf, optional gefiltert nach Raum + Zeitraum
 // /api/messwerte?raumId=1&stunden=24&limit=500
 // Die Werte werden serverseitig pro Zeit-Bucket gemittelt (Downsampling).

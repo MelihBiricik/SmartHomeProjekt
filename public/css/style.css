@@ -315,6 +315,21 @@ img { max-width: 100%; display: block; }
 }
 .stat b { color: var(--petrol); font-weight: 600; }
 
+/* --- Live-Überwachung --- */
+.live-info { color: var(--text-gedimmt); font-size: 13.5px; margin-top: 8px; }
+.live-info b { color: var(--petrol); font-weight: 600; }
+.live-tabs { display: inline-flex; gap: 4px; background: var(--nebel); border: 1px solid var(--linie); border-radius: 11px; padding: 4px; margin-bottom: 14px; }
+.live-tab {
+  font: 600 13px var(--font-text); color: var(--text-gedimmt);
+  background: transparent; border: 0; border-radius: 8px;
+  padding: 7px 14px; cursor: pointer; transition: background .15s, color .15s;
+}
+.live-tab:hover { color: var(--tiefsee); }
+.live-tab.aktiv { background: var(--petrol); color: #fff; }
+/* dezenter Puls, der bei jeder Aktualisierung kurz aufleuchtet */
+.status-pille.live-tick { animation: liveTick .6s ease; }
+@keyframes liveTick { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
+
 .fehlerbox {
   background: #f9e6e6; border: 1px solid #eec9c9; color: #8c3535;
   border-radius: var(--radius); padding: 22px 26px; margin-bottom: 28px;

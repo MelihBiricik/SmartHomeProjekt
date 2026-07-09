@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebShop – ITSol SmartHome</title>
+  <title>Live-Überwachung – ITSol SmartHome</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23026773' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10.5 12 3l9 7.5'/%3E%3Cpath d='M5 9.5V21h14V9.5'/%3E%3C/svg%3E">
@@ -22,9 +22,9 @@
       </a>
       <nav class="nav">
         <a href="index.html">Startseite</a>
-        <a href="shop.html" class="aktiv">WebShop</a>
+        <a href="shop.html">WebShop</a>
         <a href="dashboard.html">Dashboard</a>
-        <a href="live.html">Live</a>
+        <a href="live.html" class="aktiv">Live</a>
       </nav>
       <button class="warenkorb-knopf" onclick="oeffneKorb()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l3 13h11l2.5-9H7"/></svg>
@@ -33,15 +33,52 @@
     </div>
   </header>
 
-  <!-- ======= Shop ======= -->
-  <section class="sektion">
+  <!-- ======= Live-Überwachung ======= -->
+  <section class="sektion" style="padding-top: 48px;">
     <div class="container">
-      <div class="sektion-kopf">
-        <span class="augenbraue">WebShop</span>
-        <h2>Die Produktreihe SmartHome</h2>
-        <p>Alle Komponenten für Ihr intelligentes Zuhause – als Download oder Hardware-Bausatz. Alle Preise inkl. 19 % MwSt.</p>
+
+      <div class="dash-kopfzeile">
+        <div>
+          <span class="augenbraue">Live-Überwachung</span>
+          <h2 style="margin-top: 8px;">Echtzeit-Messwerte aller Räume</h2>
+          <p class="live-info" id="liveInfo">Aktualisierung alle 5&nbsp;Sekunden · warte auf Daten …</p>
+        </div>
+        <div class="dash-filter">
+          <span class="status-pille" id="dbStatus"><span class="puls"></span> Verbinde …</span>
+          <select id="fensterFilter" aria-label="Zeitfenster auswählen">
+            <option value="30">Letzte 30 Minuten</option>
+            <option value="60" selected>Letzte 60 Minuten</option>
+            <option value="180">Letzte 3 Stunden</option>
+            <option value="360">Letzte 6 Stunden</option>
+          </select>
+        </div>
       </div>
-      <div class="produkt-raster" id="produktRaster"></div>
+
+      <!-- Fehlermeldung, falls DB nicht erreichbar -->
+      <div class="fehlerbox" id="fehlerbox" hidden>
+        <b>Keine Verbindung zur Datenbank.</b><br>
+        Bitte prüfen Sie, ob der MySQL-Server läuft und die Zugangsdaten in der Datei
+        <code>.env</code> stimmen (Datenbank <code>SmartHomeDB2</code>).
+        Testdaten können Sie mit <code>npm run seed</code> einspielen.
+      </div>
+
+      <!-- Aktuelle Live-Werte pro Raum -->
+      <div class="kachel-raster" id="kachelRaster"></div>
+
+      <!-- Live-Diagramm mit einem Punkt je Messwert -->
+      <div class="diagramm-raster">
+        <div class="diagramm-karte breit">
+          <div class="live-tabs" id="messgroesse" role="tablist" aria-label="Messgröße wählen">
+            <button class="live-tab aktiv" data-feld="Temperatur" data-einheit="°C" data-stellen="1">Temperatur</button>
+            <button class="live-tab" data-feld="Luftfeuchtigkeit" data-einheit="%" data-stellen="0">Luftfeuchtigkeit</button>
+            <button class="live-tab" data-feld="Luftdruck" data-einheit="hPa" data-stellen="0">Luftdruck</button>
+          </div>
+          <div class="einheit" id="diagrammEinheit">°C · nach Raum · jeder Punkt = eine Messung</div>
+          <div class="legende" id="legende"></div>
+          <div class="diagramm-huelle"><div id="chartLive"></div></div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -53,7 +90,7 @@
         Breitwiesenstraße 20-22, 70565 Stuttgart
       </div>
       <div>
-        <a href="index.html">Startseite</a> · <a href="dashboard.html">Dashboard</a><br>
+        <a href="index.html">Startseite</a> · <a href="shop.html">WebShop</a> · <a href="dashboard.html">Dashboard</a><br>
         Azubi-Projekt „SmartHome" · it.schule stuttgart
       </div>
     </div>
@@ -75,6 +112,7 @@
   </aside>
 
   <script src="js/common.js"></script>
-  <script src="js/shop.js"></script>
+  <script src="js/minichart.js"></script>
+  <script src="js/live.js"></script>
 </body>
 </html>
